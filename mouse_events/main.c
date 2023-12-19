@@ -1,11 +1,11 @@
 //mingw32-make.exe
 
-#include <SDL.h>
+#include <C://SDL2//include//SDL2//SDL.h>
 #include <stdio.h>
 #include <stdbool.h>
-#include <SDL_image.h>
+#include <C://SDL2//include//SDL2//SDL_image.h>
 #include <time.h>
-#include <SDL_ttf.h>
+#include <C://SDL2//include//SDL2//SDL_ttf.h>
 const int ANIM_SPEED = 1000;
 const int SCREEN_WIDTH = 640;
 const int SCREEN_HEIGHT = 480;
