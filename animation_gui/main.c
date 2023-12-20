@@ -52,6 +52,7 @@ void updateMenu(Menu* menu) {
 
 int isInsideButton(SDL_Rect buttonRect, int mouseX, int mouseY) {
     
+
     return (mouseX >= buttonRect.x && mouseX <= buttonRect.x + buttonRect.w &&
             mouseY >= buttonRect.y && mouseY <= buttonRect.y + buttonRect.h);
 }
@@ -78,14 +79,19 @@ int main(int argc, char* args[]) {
 
     // Load PNG image
     SDL_Surface* imageSurface = IMG_Load("./button.png");
+    SDL_Surface* imgSurface2 = IMG_Load("./button2.png");
+    
     if (!imageSurface) {
         printf("Error loading image: %s\n", IMG_GetError());
         return 1;
     }
 
     // Create texture from the loaded image surface
-    SDL_Texture* imageTexture = SDL_CreateTextureFromSurface(renderer, imageSurface);
+    SDL_Texture* mouseIdle = SDL_CreateTextureFromSurface(renderer, imageSurface); //heap
+    SDL_Texture* mouseClick = SDL_CreateTextureFromSurface(renderer, imgSurface2);
+    SDL_Texture** curMouseTex = mouseIdle;
     SDL_FreeSurface(imageSurface); // Free the surface after creating the texture
+    SDL_FreeSurface(imgSurface2); // Free the surface after creating the texture
 
     SDL_Rect imageRect = { 20, 20, 200, 200 }; // Rectangle for the image/button
 
@@ -123,7 +129,7 @@ int main(int argc, char* args[]) {
                 // Check if the click occurred within the button's rectangle
                 if (isInsideButton(imageRect, mouseX, mouseY)) {
                     clicking = 1; // Set the clicking flag
-                    SDL_Log("clicked");
+                    curMouseTex = mouseClick;
                 }
             } else if (event.type == SDL_MOUSEBUTTONUP) {
                 int mouseX, mouseY;
@@ -132,10 +138,11 @@ int main(int argc, char* args[]) {
                 // Check if the release occurred within the button's rectangle and a click was initiated
                 if (clicking && isInsideButton(imageRect, mouseX, mouseY)) {
                     // Handle button click here (e.g., perform an action)
-                    printf("Button clicked!\n");
+                    SDL_Log("Button clicked!\n");
                 }
 
                 clicking = 0; // Reset the clicking flag
+                curMouseTex = mouseIdle;
             }
         }
 
@@ -154,7 +161,12 @@ int main(int argc, char* args[]) {
         SDL_RenderFillRect(renderer, &submenuRect);
 
         // Render the image/button
-        SDL_RenderCopy(renderer, imageTexture, NULL, &imageRect);
+        SDL_RenderCopy(renderer, curMouseTex, NULL, &imageRect);
+        // if (clicking && isInsideButton(imageRect, mouseX, mouseY)) {
+        //     SDL_RenderCopy(renderer, imgTexture2, NULL, &imageRect); // Change the button texture when clicked
+        // } else {
+        //     SDL_RenderCopy(renderer, imageTexture, NULL, &imageRect); // Render the default button texture
+        // }
 
         SDL_RenderPresent(renderer);
 
@@ -166,7 +178,8 @@ int main(int argc, char* args[]) {
     }
 
     // Cleanup
-    SDL_DestroyTexture(imageTexture);
+    SDL_DestroyTexture(mouseIdle);
+    SDL_DestroyTexture(mouseClick);
     SDL_DestroyRenderer(renderer);
     SDL_DestroyWindow(window);
     IMG_Quit(); // Quit SDL2_image
