@@ -5,7 +5,7 @@
 #define SCREEN_WIDTH 800
 #define SCREEN_HEIGHT 600
 #define MENU_WIDTH 200 // Width of the menu
-#define ANIMATION_DURATION 1000 // Animation duration in milliseconds
+#define ANIMATION_DURATION 1200 // Animation duration in milliseconds
 #define TARGET_FPS 60 // Desired frames per second
 
 typedef enum { CLOSED, OPENING, OPEN, CLOSING } MenuState;
