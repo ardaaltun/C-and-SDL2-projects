@@ -30,14 +30,14 @@ int main(int argc, char* args[])
 	if(font == NULL)
 		printf(">>%s", TTF_GetError());
     SDL_Color black = {0,0,0,255};
-	msgSurface = TTF_RenderText_Solid(font, "Hello World!", black);
-	texture = SDL_CreateTextureFromSurface(renderer, msgSurface);
+	msgSurface = TTF_RenderText_Solid(font, "Hello 2024!", black);
+	//texture = SDL_CreateTextureFromSurface(renderer, msgSurface);
 	SDL_Rect rect = {0,0,300,100};
 	SDL_Rect dest = {0,0,300,100}; 
 	//Hack to get window to stay up
     SDL_Event e;
     bool quit = false;
-    //texture = type("Hello World!", black);
+    texture = type("Hello World 2024!", black);
 	
 	while (!quit)
 	{	//will take events off the queue until it is empty 
@@ -58,7 +58,7 @@ int main(int argc, char* args[])
 	    
 	}
 		SDL_RenderClear(renderer);
-		SDL_RenderCopy(renderer, texture, &rect, &dest);
+		SDL_RenderCopy(renderer, texture, NULL, &dest);
 		SDL_RenderPresent(renderer);
 		
 	}

@@ -24,7 +24,7 @@ LIBRARY_PATHS = -LC:\SDL2\lib
 # -w suppresses all warnings
 
 # -Wl,-subsystem,windows gets rid of the console window
-COMPILER_FLAGS = #-w -Wl,-subsystem,windows
+COMPILER_FLAGS = -w -Wl,-subsystem,windows
 
 
 #LINKER_FLAGS specifies the libraries we're linking against

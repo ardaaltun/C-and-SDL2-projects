@@ -38,6 +38,7 @@ int main(int argc, char* args[])
 	SDL_Rect dest = {0,0,300,100}; 
 	//Hack to get window to stay up
     SDL_Event e;
+	const Uint8* keystates = SDL_GetKeyboardState(NULL);
     bool quit = false;
     //texture = type("Hello World!", black);
 	
@@ -59,16 +60,22 @@ int main(int argc, char* args[])
 				texture = SDL_CreateTextureFromSurface(renderer, msgSurface);
 	        	
 	        }
+
+			//has key repeat delay
 	        else if (e.type == SDL_KEYDOWN) {
                  SDL_Keycode keycode = e.key.keysym.sym;
                  if (keycode == SDLK_q)	quit = true;
 			}
-    
-
-	    
-
 	    
 	}
+	//doestn have key repeat delay problem
+	if(keystates[SDL_SCANCODE_Q]) {
+            SDL_Log("q pressed");
+        }
+
+
+
+
 		SDL_RenderClear(renderer);
 		SDL_RenderCopy(renderer, texture, &rect, &dest);
 		SDL_RenderPresent(renderer);
